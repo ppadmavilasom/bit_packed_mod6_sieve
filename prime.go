@@ -1,0 +1,72 @@
+package main
+
+import (
+  "math"
+  "os"
+  "strconv"
+)
+
+const (
+	SIX     = 6
+	UNIT    = 24
+	DEFAULT = 100
+)
+
+type Offsets struct {
+	start int
+	offset1 int
+	offset2 int
+	offsetSwap int
+	inc int
+	index int
+}
+
+func main() {
+	n := getArg(1, 1, DEFAULT)
+	if n < UNIT {
+		n = UNIT
+	}
+	calc_primes(n)
+}
+
+func calc_primes(n int) {
+	o := Offsets {start: 5, offset1: 7, offset2: 3, offsetSwap: 7^3, inc: 4}
+	l := n/UNIT
+	b := make([]byte, l)
+	sqrtn := int(math.Sqrt(float64(n)))
+	for i := range b {
+		b[i] = 0xFF
+	}
+	for ; o.start <= sqrtn; o.next() {
+		if b[o.index >> 3] & (1 << (7 - o.index % 8)) == 0 {
+			continue
+		}
+		offset := o.offset1
+		bit := o.index + offset
+		row := bit >> 3
+		for ; row < l; {
+			b[row] &= ^(1 << (7 - (bit % 8)))
+			offset ^= o.offsetSwap
+			bit += offset
+			row = bit >> 3
+		}
+	}
+	os.WriteFile("bits", b, 0644)
+}
+
+func (o *Offsets) next() {
+	o.inc ^= SIX
+	o.start += o.inc
+	o.offset2 += 2
+	o.offset1 = (o.start << 1) - o.offset2
+	o.index++
+	o.offsetSwap = o.offset1 ^ o.offset2
+}
+
+func getArg(i, p, d int) int {
+	if len(os.Args) > p {
+		n, _ := strconv.Atoi(os.Args[i])
+		return n
+	}
+	return d
+}
