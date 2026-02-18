@@ -15,7 +15,7 @@ const (
 )
 
 // Offsets tracks the state for the wheel factorization sieve.
-// It skips multiples of 2 and 3, processing only numbers of form 6k+1 and 6k+5.
+// It skips multiples of 2 and 3, processing only numbers of form 6k+/-1.
 type Offsets struct {
 	start      int
 	offset1    int
@@ -32,7 +32,7 @@ func main() {
 	}
 	bits := calcPrimes(limit)
 	if err := os.WriteFile("bits", bits, 0644); err != nil {
-		os.Stderr.WriteString("Error writing output file: " + err.Error() + "\n")
+		os.Stderr.WriteString("Error writing file: " + err.Error() + "\n")
 		os.Exit(1)
 	}
 }

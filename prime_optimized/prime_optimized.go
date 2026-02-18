@@ -9,7 +9,7 @@ import (
 const (
 	// Wheel factorization constants
 	wheelSize       = 6
-	wheelToggle     = 2 // Used to toggle square increment?
+	squareToggle    = 2
 	bitsPerByte     = 8
 	unitsPerByte    = 24
 	defaultMaxLimit = 100
@@ -111,7 +111,7 @@ func (o *Offsets) next() {
 		o.squareSeq1++
 		o.squareInc = o.squareSeq1
 	}
-	o.squareSeq ^= wheelToggle
+	o.squareSeq ^= squareToggle
 }
 
 // getArg parses the i-th command line argument as an integer, or returns default d.
