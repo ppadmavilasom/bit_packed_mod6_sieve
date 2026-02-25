@@ -15,6 +15,17 @@ const (
 	defaultMaxLimit = 100
 )
 
+var (
+	bitShifts = [8]byte {
+		1<<7, 1<<6, 1<<5, 1<<4,
+		1<<3, 1<<2, 1<<1, 1<<0,
+	}
+	bitMasks = [8]byte {
+		0x7F, 0xBF, 0xDF, 0xEF,
+		0xF7, 0xFB, 0xFD, 0xFE,
+	}
+)
+
 // Offsets tracks the state for the wheel factorization sieve.
 // This version includes additional state for "square" optimization.
 type Offsets struct {
@@ -68,7 +79,7 @@ func calcPrimes(n int) []byte {
 	}
 
 	for ; offsets.start <= sqrtN; offsets.next() {
-		if bits[offsets.index>>3]&(1<<(7-offsets.index%8)) == 0 {
+		if bits[offsets.index>>3]&bitShifts[offsets.index&7] == 0 {
 			continue
 		}
 
@@ -83,7 +94,7 @@ func calcPrimes(n int) []byte {
 		row := bit >> 3
 
 		for row < size {
-			bits[row] &= ^(1 << (7 - (bit % 8)))
+			bits[row] &= bitMasks[bit & 7]
 			offset ^= offsets.offsetSwap
 			bit += offset
 			row = bit >> 3
