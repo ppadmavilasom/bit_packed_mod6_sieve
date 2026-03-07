@@ -2,19 +2,27 @@
 Rererence code for [bit packed mod6 sieve](https://www.tdcommons.org/dpubs_series/9333/)
 
 ### Pre-requisites
+- cc
 - [golang](https://go.dev/dl/) 
 - make
 
 ### Reference implementations
-- [Mod-6 wheel bit-packed unoptimized](prime/README.md)
-- [Mod-6 wheel bit-packed optimized](prime_optimized/README.md)
+Reference implementations are provided in `c` and `golang`
 
+#### c
+- [Mod-6 wheel bit-packed unoptimized](c/prime/README.md)
+- [Mod-6 wheel bit-packed optimized](c/prime_optimized/README.md)
+
+#### golang
+- [Mod-6 wheel bit-packed unoptimized](go/prime/README.md)
+- [Mod-6 wheel bit-packed optimized](go/prime_optimized/README.md)
 
 ### How to run
-`./prime` to get results in a file named `bits`
+`make -C c/prime`
+`./c/prime/prime` to get results in a file named `bits`
 
 ```
-$ ./prime
+$ ./c/prime/prime
 $ ls -al bits
 -rw-r--r-- 1 pgp pgp 4 Feb 16 23:44 bits
 $ xxd bits

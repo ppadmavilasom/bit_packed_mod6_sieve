@@ -8,6 +8,7 @@ valgrind: prime
 
 clean:
 	-rm prime
+	-rm bits
 
 .PHONY: all clean valgrind
 .SILENT:
