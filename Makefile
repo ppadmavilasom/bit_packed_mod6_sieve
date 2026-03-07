@@ -11,13 +11,20 @@ test:
 	@for f in $(GO_FOLDERS); do make -sC $$f test; done
 
 integration: all
-	./check_shasums.sh ./go/prime/prime 8
-	./check_shasums.sh ./go/prime_optimized/prime_optimized 8
 	./check_shasums.sh ./c/prime/prime 8
 	./check_shasums.sh ./c/prime_optimized/prime_optimized 8
+	./check_shasums.sh ./go/prime/prime 8
+	./check_shasums.sh ./go/prime_optimized/prime_optimized 8
+
+show_times: all
+	./check_times.sh ./c/prime/prime 8
+	./check_times.sh ./c/prime_optimized/prime_optimized 8
+	./check_times.sh ./go/prime/prime 8
+	./check_times.sh ./go/prime_optimized/prime_optimized 8
 
 clean:
 	@for f in $(FOLDERS); do make -sC $$f clean; done
+	-rm bits
 
 .PHONY: all vet test integration utils
 .SILENT:

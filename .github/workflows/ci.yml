@@ -13,6 +13,9 @@ jobs:
     - name: Integration tests
       run: make integration
 
+    - name: Display run times
+      run: make show_times
+
     - name: Cleanup
       if: always()
       run: make clean

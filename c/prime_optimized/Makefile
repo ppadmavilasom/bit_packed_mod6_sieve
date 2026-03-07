@@ -5,6 +5,7 @@ prime_optimized: prime_optimized.c
 
 clean:
 	-rm prime_optimized
+	-rm bits
 
 .PHONY: all clean
 .SILENT:
